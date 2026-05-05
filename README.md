@@ -48,7 +48,19 @@ This project is an AI automation workflow built with n8n. It allows a user to se
 
 
 
+## Future Improvements
+
+- Add Telegram input support to record expenses directly through a Telegram bot.
+- Improve date handling for inputs such as “today”, “yesterday”, and specific dates.
+- Add more expense categories such as food, transportation, subscriptions, shopping, and bills.
+- Generate weekly and monthly expense summaries.
+
+
+
 ## Important Note
 
 This repository does not include private credentials, API keys, Telegram bot tokens, Google credentials, or private sheet links.
+
+
+
 
