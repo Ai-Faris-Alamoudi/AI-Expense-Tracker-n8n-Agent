@@ -40,11 +40,11 @@ This project is an AI automation workflow built with n8n. It allows a user to se
 
 ### n8n Workflow
 
-![n8n Workflow](images/n8n-workflow.jpeg)
+![n8n Workflow](n8n-workflow.jpeg)
 
 ### Google Sheets Output
 
-![Google Sheets Output](images/google-sheets-output.jpeg)
+![Google Sheets Output](google-sheets-output.jpeg)
 
 
 
