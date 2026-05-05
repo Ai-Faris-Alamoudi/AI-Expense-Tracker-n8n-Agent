@@ -1,0 +1,186 @@
+{
+  "name": "AI-Expense-Tracker-n8n-Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -304,
+        -80
+      ],
+      "name": "When chat message received"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are an AI Agent responsible ONLY for expense tracking.\n\nYour task:\n- Understand user messages that describe an expense.\n- Extract exactly FOUR fields from the message:\n  1) ExpensesName\n  2) ExpensesDate ( should be {{ $now }})\n  3) Amount\n  4) SubscriptionType\n\nRules:\n- Extract values clearly and accurately.\n- If a date is not explicitly mentioned, infer it logically (e.g., “today” → today’s date).\n- Format all extracted values as simple strings.\n- Do NOT add extra fields or assumptions beyond these four.\n- Do NOT engage in general conversation, explanations, advice, or unrelated tasks.\n\nAction:\n- Use the available tool to append or update the Google Sheet “AlwajeezAI_n8n” with the extracted values.\n\nResponse to the user:\n- Reply briefly and politely.\n- Confirm that the expense has been recorded or updated.\n- Do not include technical details, reasoning, or the extracted field list.\n\nStay strictly within this scope at all times."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -32,
+        -80
+      ],
+      "name": "AI Agent",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        64,
+        128
+      ],
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:3b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        128
+      ],
+      "name": "Ollama Chat Model"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_URL_OR_ID",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "YOUR_SHEET_NAME",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ExpensesName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('ExpensesName', ``, 'string') }}",
+            "ExpensesDate": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('ExpensesDate', ``, 'string') }}",
+            "Amount": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Amount', ``, 'string') }}",
+            "SubscriptionType": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('SubscriptionType', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "ExpensesName"
+          ],
+          "schema": [
+            {
+              "id": "ExpensesName",
+              "displayName": "ExpensesName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ExpensesDate",
+              "displayName": "ExpensesDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Amount",
+              "displayName": "Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SubscriptionType",
+              "displayName": "SubscriptionType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        288,
+        128
+      ],
+      "name": "My Expenses n8n"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "My Expenses n8n": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "tags": []
+}
+
+
