@@ -135,10 +135,9 @@ Through this project, I practiced:
 
 - Building AI automation workflows using n8n
 - Connecting an AI Agent with external tools
-- Running a local LLM using Ollama
 - Using Google Sheets as structured storage
 - Designing prompts for structured information extraction
-- Preparing an n8n workflow for safe public sharing on GitHub
+  
 
 ---
 
